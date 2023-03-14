@@ -1,1 +1,31 @@
-halaman data_peminjaman
+<?php
+$koneksi = mysqli_connect('localhost', 'root', '', 'perpustakaan_v2');
+@session_start();
+?>
+
+<table class="table border shadow">
+    <tr class="bg-primary text-white">
+        <th>No</th>
+        <th>ID Buku</th>
+        <th>Judul Buku</th>
+        <th>Tanggal Peminjaman</th>
+        <th>Tanggal Kembali</th>
+    </tr>
+    <?php
+    $nisn = $_SESSION['nisn'];
+    $no = 1;
+    $querydp = mysqli_query($koneksi, "SELECT * FROM peminjaman
+    INNER JOIN buku ON buku.id_buku = peminjaman.id_buku WHERE nisn=$nisn");
+    while ($dp = mysqli_fetch_array($querydp)) {
+    ?>
+        <tr>
+            <td><?= $no++; ?></td>
+            <td><?= $dp['id_buku']; ?></td>
+            <td><?= $dp['judul_buku']; ?></td>
+            <td><?= $dp['tanggalpinjam']; ?></td>
+            <td><?= $dp['tanggalkembali']; ?></td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>
